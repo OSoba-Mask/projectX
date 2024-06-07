@@ -1,0 +1,74 @@
+<!DOCTYPE HTML><html>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<p><span id="s1"></span></p>
+<p><span id="s2"></span></p>
+<p><span id="s3"></span></p>
+
+<input type="color" id="picker">
+<input id="slider" type="range" min="0" max="255">
+<button id="yo">pressme</button>
+<script>
+let gateway = `ws://${window.location.hostname}/ws`;
+let websocket;
+window.addEventListener('load', onload);
+let slider = document.querySelector("#slider");
+let picker = document.querySelector("#picker");
+
+function hexToRgb(hex) {
+    let result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result ? {
+      r: parseInt(result[1], 16),
+      g: parseInt(result[2], 16),
+      b: parseInt(result[3], 16)
+    } : null;
+}
+
+function onload(event) {
+    initWebSocket();
+    initButtons();
+}
+
+function initButtons() {
+  document.getElementById('yo').addEventListener('click', forwardMove);
+}
+
+function forwardMove(){
+  //websocket.send('f');
+  console.log(slider.value);
+  console.log(hexToRgb(picker.value));
+  websocket.send(JSON.stringify({rgb: parseInt(slider.value)}));
+  websocket.send(JSON.stringify(hexToRgb(picker.value)));
+}
+
+function getReadings(){
+    websocket.send("getReadings");
+}
+
+function initWebSocket() {
+    console.log('Trying to open a WebSocket connection…');
+    websocket = new WebSocket(gateway);
+    websocket.onopen = onOpen;
+    websocket.onclose = onClose;
+    websocket.onmessage = onMessage;
+}
+
+function onOpen(event) {
+    console.log('Connection opened');
+    getReadings();
+}
+
+function onClose(event) {
+    console.log('Connection closed');
+    setTimeout(initWebSocket, 2000);
+}
+
+function onMessage(event) {
+    console.log(event.data);
+    let myObj = JSON.parse(event.data);
+    let keys = Object.keys(myObj);
+
+    for (let i = 0; i < keys.length; i++){
+        let key = keys[i];
+        document.getElementById(key).innerHTML = myObj[key];
+    }
+}</script>

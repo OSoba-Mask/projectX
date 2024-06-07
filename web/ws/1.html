@@ -1,0 +1,61 @@
+<!DOCTYPE HTML><html>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<p><span id="s1"></span></p>
+<p><span id="s2"></span></p>
+<p><span id="s3"></span></p>
+
+<button id="yo">motorON</button>
+<button id="yo">motorOFF</button>
+<script>
+let gateway = `ws://${window.location.hostname}/ws`;
+let websocket;
+window.addEventListener('load', onload);
+
+
+function onload(event) {
+    initWebSocket();
+    initButtons();
+}
+
+function initButtons() {
+  document.getElementById('yo').addEventListener('click', forwardMove);
+}
+
+function forwardMove(){
+  //websocket.send('f');
+  console.log(slider.value);
+  websocket.send(JSON.stringify({rgb: slider.value}));
+}
+
+function getReadings(){
+    websocket.send("getReadings");
+}
+
+function initWebSocket() {
+    console.log('Trying to open a WebSocket connection…');
+    websocket = new WebSocket(gateway);
+    websocket.onopen = onOpen;
+    websocket.onclose = onClose;
+    websocket.onmessage = onMessage;
+}
+
+function onOpen(event) {
+    console.log('Connection opened');
+    getReadings();
+}
+
+function onClose(event) {
+    console.log('Connection closed');
+    setTimeout(initWebSocket, 2000);
+}
+
+function onMessage(event) {
+    console.log(event.data);
+    let myObj = JSON.parse(event.data);
+    let keys = Object.keys(myObj);
+
+    for (let i = 0; i < keys.length; i++){
+        let key = keys[i];
+        document.getElementById(key).innerHTML = myObj[key];
+    }
+}</script>
