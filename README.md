@@ -135,3 +135,5 @@ void loop() {
 ![5](pictures/насадка_в_сборе.jpg)
 
 ## Результат
+GIF симуляция работы манипулятора
+![6](pictures/RobotLine.gif)
