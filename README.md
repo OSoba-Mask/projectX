@@ -123,4 +123,4 @@ void loop() {
 }
 ```
 Так выглядит web страница:
-![1](projectX/pictures/страница.jpg)
+![1](projectX/pictures/страница.jpeg)
