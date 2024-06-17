@@ -137,4 +137,4 @@ void loop() {
 
 ## Результат
 GIF симуляция работы манипулятора
-![6](pictures/RobotLine.gif)
+![6](pictures/RobotLineV2.gif)
