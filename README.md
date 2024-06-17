@@ -129,7 +129,7 @@ void loop() {
 ![2](pictures/корпусV2.jpg)\
 Круг:\
 ![3](pictures/круг.jpg)\
-![4](pictures/креплениенасадки.jpg)\
+![4](pictures/креплениенасадкиV2.jpg)\
 
 
 ## Результат
