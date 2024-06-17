@@ -146,4 +146,4 @@ void loop() {
 GIF симуляция работы манипулятора:
 ![6](pictures/RobotLineV2.gif)\
 Видео работы насадки и манипулятора:
-![7](pictures/3535314107526513908.mp4)
+![7](https://youtu.be/sCUShQgh4uU)
